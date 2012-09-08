@@ -1,0 +1,22 @@
+{
+  "name": "tvrage",
+  "version": "0.0.1",
+  "description": "Interface for the TVRage API",
+  "keywords": ["tv", "tvrage", "ratings"],
+  "author": "Hunter Loftis <hunter@hunterloftis.com>",
+  "repository": { "type": "git", "url": "git@github.com:tbeseda/tvrage.git" },
+  "main": "./tvrage",
+  "engines": { "node": ">= 0.8.0" },
+  "scripts": {
+    "test": "make test"
+  },
+  "dependencies": {
+    "superagent": "0.9.1",
+    "xml2js": "0.2.0"
+  },
+  "devDependencies": {
+    "eyes": "*",
+    "mocha": "*",
+    "should": "*"
+  }
+}
