@@ -36,6 +36,15 @@ class TVrage
     @detailedSearch show, (err, shows) ->
       done err, shows[0]
 
+  fullShowInfo: (id, done) ->
+    request
+      .get("#{@uri}feeds/full_show_info.php")
+      .send( sid: id )
+      .end (request_err, response) =>
+        unless request_err
+          @parser.parseString response.text, (xml_err, result) ->
+            done xml_err, new Show(result.Show)
+
   fullSchedule: (country, done) =>
     request
       .get("#{@uri}feeds/fullschedule.php")
