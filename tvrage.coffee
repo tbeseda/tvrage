@@ -1,12 +1,9 @@
 request = require 'superagent'
 xml2js = require 'xml2js'
 
-module.exports = (key) -> new TVrage(key)
-
 class TVrage
   uri: 'http://services.tvrage.com/'
-  parser: new xml2js.Parser
-    explicitArray: false
+  parser: new xml2js.Parser(explicitArray: false)
 
   constructor: (@key) ->
 
@@ -119,3 +116,7 @@ class Show
       delete @data['Episodelist'] # not a reliable enough attribute to keep
 
     seasons
+
+module.exports =
+  TVrage: (key) -> new TVrage(key)
+  Show: Show
