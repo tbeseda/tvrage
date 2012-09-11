@@ -12,8 +12,6 @@ tv.search 'battlestar', (err, results) ->
 
 tv.detailedSearch 'arrested', (err, results) ->
   inspect results.length, 'shows found for detailed search "arrested"'
-  delete results[0].data
-  inspect results[0]
   console.log '\n'
 
 tv.findOne 'alias', (err, show) ->

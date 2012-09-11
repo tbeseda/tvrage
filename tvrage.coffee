@@ -15,7 +15,7 @@ class TvRageProxy
         unless request_err
           @parser.parseString response.text, (xml_err, result) ->
             shows = []
-            shows.push(new Show(show)) for show in result.Results.show
+            shows.push(new TvRageShow(show)) for show in result.Results.show
             done xml_err, shows
 
   detailedSearch: (show, done) ->
@@ -26,7 +26,7 @@ class TvRageProxy
         unless request_err
           @parser.parseString response.text, (xml_err, result) ->
             shows = []
-            shows.push(new Show(show)) for show in result.Results.show
+            shows.push(new TvRageShow(show)) for show in result.Results.show
             done xml_err, shows
 
   findOne: (show, done) ->
@@ -40,7 +40,7 @@ class TvRageProxy
       .end (request_err, response) =>
         unless request_err
           @parser.parseString response.text, (xml_err, result) ->
-            done xml_err, new Show(result.Show)
+            done xml_err, new TvRageShow(result.Show)
 
   fullSchedule: (country, done) =>
     request
