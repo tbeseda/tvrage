@@ -1,7 +1,7 @@
 request = require 'superagent'
 xml2js = require 'xml2js'
 
-class TVrage
+class TvRageProxy
   uri: 'http://services.tvrage.com/'
   parser: new xml2js.Parser(explicitArray: false)
 
@@ -60,7 +60,7 @@ class TVrage
       # just return the raw output for now
       done request_err, response.text
 
-class Show
+class TvRageShow
   constructor: (@data) ->
     # Re-map some attributes
     @id = parseInt @data['showid']
@@ -118,5 +118,5 @@ class Show
     seasons
 
 module.exports =
-  TVrage: (key) -> new TVrage(key)
-  Show: Show
+  Proxy: (key) -> new TvRageProxy(key)
+  Show: TvRageShow

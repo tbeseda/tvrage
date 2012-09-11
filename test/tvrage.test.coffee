@@ -1,7 +1,7 @@
 should = require 'should'
 tvrage = require '../tvrage'
 
-tv = new tvrage.TVrage 'my_api_key'
+tv = new tvrage.Proxy 'my_api_key'
 
 describe 'searching', ->
   describe 'with simple search', ->
