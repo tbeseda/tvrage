@@ -1,6 +1,7 @@
 inspect = require('eyes').inspector maxLength: false
 tvrage = require './tvrage'
-tv = new tvrage 'key'
+tv = new tvrage 'my_api_key' # key only needed for summaries
+                             # which isn't implemented yet
 
 console.log "using TVRage key: #{tv.key}"
 
