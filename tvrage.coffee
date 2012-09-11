@@ -66,9 +66,9 @@ class TVrage
 class Show
   constructor: (@data) ->
     # Re-map some attributes
-    @id = parseInt @data.showid
-    @ended = if @data.ended? then @data.ended else false
-    @network = if @data.network? then @data.network._ else null
+    @id = parseInt @data['showid']
+    @ended = if @data['ended']? then @data['ended'] else false
+    @network = if @data['network']? then @data['network']['_'] else null
     @genres = @genres()
     @akas = @akas()
     @seasons = @seasons()
@@ -79,21 +79,21 @@ class Show
   genres: ->
     genres = []
 
-    if @data.genres? and typeof @data.genres.genre is 'string'
-      genres = [ @data.genres.genre ]
-    else if @data.genres?
-      genres = @data.genres.genre
+    if @data['genres']? and typeof @data['genres']['genre'] is 'string'
+      genres = [ @data['genres']['genre'] ]
+    else if @data['genres']?
+      genres = @data['genres']['genre']
 
-    return genres
+    genres
 
   akas: ->
     akas = []
 
-    if @data.akas? and typeof @data.akas.aka is 'string'
-      akas = [ @data.akas.aka ]
-    else if @data.akas?
+    if @data['akas']? and typeof @data['akas']['aka'] is 'string'
+      akas = [ @data['akas']['aka'] ]
+    else if @data['akas']?
 
-      for aka in @data.akas.aka
+      for aka in @data['akas']['aka']
         if aka['_']? and aka['$']
           akas.push
             name: aka['_']
@@ -102,9 +102,8 @@ class Show
           # some akas dont have country attributes
           akas.push name: aka
 
-    return akas
-    else
-      []
+    akas
+
   seasons: ->
     seasons = []
 
