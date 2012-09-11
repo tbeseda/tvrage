@@ -67,19 +67,31 @@ class Show
       @[key] = val unless @[key]?
 
   genres: ->
+    genres = []
+
     if @data.genres? and typeof @data.genres.genre is 'string'
-      [ @data.genres.genre ]
+      genres = [ @data.genres.genre ]
     else if @data.genres?
-      @data.genres.genre
-    else
-      []
+      genres = @data.genres.genre
+
+    return genres
 
   akas: ->
+    akas = []
+
     if @data.akas? and typeof @data.akas.aka is 'string'
-      [ @data.akas.aka ]
+      akas = [ @data.akas.aka ]
     else if @data.akas?
-      akas = []
-      akas.push({name: aka._, country: aka['$'].country}) for aka in @data.akas.aka
-      akas
+
+      for aka in @data.akas.aka
+        if aka['_']? and aka['$']
+          akas.push
+            name: aka['_']
+            country: aka['$'].country
+        else if typeof aka is 'string'
+          # some akas dont have country attributes
+          akas.push name: aka
+
+    return akas
     else
       []
