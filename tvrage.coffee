@@ -71,6 +71,7 @@ class Show
     @network = if @data.network? then @data.network._ else null
     @genres = @genres()
     @akas = @akas()
+    @seasons = @seasons()
 
     for key, val of @data
       @[key] = val unless @[key]?
@@ -104,3 +105,18 @@ class Show
     return akas
     else
       []
+  seasons: ->
+    seasons = []
+
+    if @data['Episodelist']?
+
+      if @data['Episodelist']['Season'] instanceof Array
+        for season in @data['Episodelist']['Season']
+          seasons.push episodes: season.episode
+      else if @data['Episodelist']['Season'] instanceof Object
+        # Only one season
+        seasons = [ episodes: @data['Episodelist']['Season']['episode'] ]
+
+      delete @data['Episodelist'] # not a reliable enough attribute to keep
+
+    seasons
