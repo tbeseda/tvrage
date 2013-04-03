@@ -1,4 +1,5 @@
 # tvrage
+### Search and retrieve television data from TVRAGE
 
 ```coffeescript
 tvrage = require './tvrage'
