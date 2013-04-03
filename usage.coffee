@@ -2,7 +2,7 @@ inspect = require('eyes').inspector maxLength: false
 tvrage = require './tvrage'
 
 tv = new tvrage.Proxy 'my_api_key' # key only needed for summaries
-                                    # which isn't implemented yet
+                                   # which isn't implemented yet
 
 console.log "using TVRage key: #{tv.key}"
 

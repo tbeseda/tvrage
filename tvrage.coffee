@@ -10,20 +10,23 @@ class TvRageProxy
   search: (show, done) ->
     request
       .get("#{@uri}feeds/search.php")
-      .send( show: show )
-      .end (request_err, response) =>
-        unless request_err
+      .query( show: show )
+      .end (response) =>
+        if response.ok
           @parser.parseString response.text, (xml_err, result) ->
-            shows = []
-            shows.push(new TvRageShow(show)) for show in result.Results.show
-            done xml_err, shows
+            unless result.Results is '0'
+              shows = []
+              shows.push(new TvRageShow(show)) for show in result.Results.show
+              done xml_err, shows
+            else
+              done null, []
 
   detailedSearch: (show, done) ->
     request
       .get("#{@uri}feeds/full_search.php")
-      .send( show: show )
-      .end (request_err, response) =>
-        unless request_err
+      .query( show: show )
+      .end (response) =>
+        if response.ok
           @parser.parseString response.text, (xml_err, result) ->
             shows = []
             shows.push(new TvRageShow(show)) for show in result.Results.show
@@ -36,29 +39,30 @@ class TvRageProxy
   fullShowInfo: (id, done) ->
     request
       .get("#{@uri}feeds/full_show_info.php")
-      .send( sid: id )
-      .end (request_err, response) =>
-        unless request_err
+      .query( sid: id )
+      .end (response) =>
+        if response.ok
           @parser.parseString response.text, (xml_err, result) ->
             done xml_err, new TvRageShow(result.Show)
 
   fullSchedule: (country, done) =>
     request
       .get("#{@uri}feeds/fullschedule.php")
-      .send( country: country )
-      .end (request_err, response) =>
-        unless request_err
+      .query( country: country )
+      .end (response) =>
+        if response.ok
           @parser.parseString response.text, (xml_err, result) ->
             done xml_err, result.schedule
 
   quickSchedule: (country, done) =>
     request
     .get("#{@uri}tools/quickschedule.php")
-    .send( country: country )
-    .end (request_err, response) =>
+    .query( country: country )
+    .end (response) =>
       # This API does not return XML
       # just return the raw output for now
-      done request_err, response.text
+      if response.ok
+        done response.text
 
 class TvRageShow
   constructor: (@data) ->
@@ -81,7 +85,7 @@ class TvRageShow
     else if @data['genres']?
       genres = @data['genres']['genre']
 
-    genres
+    return genres
 
   akas: ->
     akas = []
@@ -99,7 +103,7 @@ class TvRageShow
           # some akas dont have country attributes
           akas.push name: aka
 
-    akas
+    return akas
 
   seasons: ->
     seasons = []
@@ -115,7 +119,7 @@ class TvRageShow
 
       delete @data['Episodelist'] # not a reliable enough attribute to keep
 
-    seasons
+    return seasons
 
 module.exports =
   Proxy: (key) -> new TvRageProxy(key)

@@ -14,6 +14,11 @@ describe 'searching', ->
         results[0].seasons.should.be.empty
         done()
 
+    it 'should be empty when there are no results', (done) ->
+      tv.search 'Nx8bw1NkNR', (err, results) ->
+        results.should.be.empty
+        done()
+
   describe 'with detailed search', ->
     it 'should return extended Show objects', (done) ->
       tv.detailedSearch 'buffy', (err, results) ->
